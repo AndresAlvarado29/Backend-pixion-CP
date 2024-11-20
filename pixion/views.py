@@ -1,11 +1,30 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework import status
-from .models import Image
-from .serializers import ImageSerializer
+from rest_framework.decorators import api_view
+from .models import Image, Usuario
+from .serializers import ImageSerializer, UsuarioSerializer
 from PIL import Image as PILImage
 import io
+
+class UsuarioListCreateView(ListCreateAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+
+# Endpoint para buscar un usuario por username
+@api_view(['GET'])
+def buscar_usuario(request, username):
+    try:
+        usuario = Usuario.objects.get(username=username)
+        serializer = UsuarioSerializer(usuario)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
 
 class ProcessImageView(APIView):
     def post(self, request, *args, **kwargs):

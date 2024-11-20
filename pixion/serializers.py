@@ -4,7 +4,7 @@ from .models import Image, Usuario
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['id',';username', 'email' ]
+        fields = ['id','username', 'email' ]
 
 
 
