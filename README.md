@@ -11,3 +11,25 @@ Se va "Dockerizar" con la imagen de Ubuntu22:Cuda12.4
 
 Las librerias a usar estan en el archivo ```requirements.txt```
 
+### Endpoints (APIs)
+
+creacion de usuarios
+
+
+ POST ```http://ipserver:8000/api/usuarios ```
+
+----
+
+Obtener usuarios por id
+
+
+
+GET ```http://ipserver:8000/api/usuarios/buscar/<id_user>```
+
+
+----
+
+Obtener todos los usuarios  (solo para pruebas)
+
+
+GET ```http://ipserver:8000/api/usuarios```
