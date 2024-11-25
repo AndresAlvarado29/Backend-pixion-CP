@@ -1,3 +1,5 @@
+from django.contrib.auth.hashers import check_password
+from django.core.serializers import serialize
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -5,16 +7,16 @@ from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import Image, Usuario
-from .serializers import ImageSerializer, UsuarioSerializer
+from .serializers import ImageSerializer, UsuarioSerializer, UsuarioLoginSerializer, UsuarioSerializerRegistro
 from PIL import Image as PILImage
 import io
 
 #POST
 class UsuarioListCreateView(ListCreateAPIView):
     queryset = Usuario.objects.all()
-    serializer_class = UsuarioSerializer
+    serializer_class = UsuarioSerializerRegistro
 
-# Endpoint para buscar un usuario por username
+# Endpoint para buscar un usuario por username (pruebas)
 @api_view(['GET'])
 def buscar_usuario(request, username):
     try:
@@ -24,8 +26,30 @@ def buscar_usuario(request, username):
     except Usuario.DoesNotExist:
         return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
+#endpoint para el login, buscar usuario y verificar contrasenia
+class LoginView(APIView):
+    def post(self, request):
+        serializer = UsuarioLoginSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
 
 
+        # verificar si existe el usuario
+        try:
+            usuario = Usuario.objects.get(username=username)
+        except Usuario.DoesNotExist:
+            return Response({"Error: ": "Usuario no existe"}, status=status.HTTP_404_NOT_FOUND)
+
+        # si existe verifica la contrasenia
+
+        if not check_password(password, usuario.password):
+            return Response({"Error": "Contraseña incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = UsuarioSerializer(usuario)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class ProcessImageView(APIView):
     def post(self, request, *args, **kwargs):

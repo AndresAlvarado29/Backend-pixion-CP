@@ -19,7 +19,22 @@ creacion de usuarios
  POST ```http://ipserver:8000/api/usuarios ```
 
 ----
+LOGIN
 
+se hace un post con username y password a:
+
+
+POST ```http://ipserver:8000/api/login ```
+
+Devuelve codigo ```http 200 OK ```  si el login es correcto 
+
+caso contrario devuelve ```http 400 BAD_REQUEST```
+
+
+
+
+
+----
 Obtener usuarios por username (username es unico)
 
 
