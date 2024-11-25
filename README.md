@@ -11,6 +11,18 @@ Se va "Dockerizar" con la imagen de Ubuntu22:Cuda12.4
 
 Las librerias a usar estan en el archivo ```requirements.txt```
 
+### Ejecucion
+
+al ejecutar el servidor por primera vez se debe ejecutar los siguientes comandos para migrar la base de datos:
+
+```python manage.py makemigrations```
+
+```python manage.py migrate```
+
+Luego se puede ejecutar el servidor (se ejecuta en el puerto 8000)
+
+```python manage.py runserver```
+
 ### Endpoints (APIs)
 
 creacion de usuarios
