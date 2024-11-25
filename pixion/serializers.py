@@ -38,6 +38,6 @@ class UsuarioLoginSerializer(serializers.Serializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ['id', 'img', 'processed_img', 'user', 'likes', 'comments']
+        fields = ['id', 'img_original', 'img_processed', 'id_user', 'likes', 'comments']
         read_only_fields = ['processed_img', 'likes', 'comments']  # No se pueden modificar likes/comments en esta vista
 

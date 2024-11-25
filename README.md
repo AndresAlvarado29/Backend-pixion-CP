@@ -42,10 +42,6 @@ Devuelve codigo ```http 200 OK ```  si el login es correcto
 
 caso contrario devuelve ```http 400 BAD_REQUEST```
 
-
-
-
-
 ----
 Obtener usuarios por username (username es unico)
 
