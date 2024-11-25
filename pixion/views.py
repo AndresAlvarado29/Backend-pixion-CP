@@ -59,13 +59,13 @@ class ProcessImageView(APIView):
             instance = serializer.save()
 
             # aqui se llama  a los filtros
-            original_path = instance.img.path
+            original_path = instance.img_original.path
             img = PILImage.open(original_path).convert('L')  # Convertir a escala de grises
 
             # Guardar la imagen procesada
             processed_path = original_path.replace('original_images', 'processed_images')
             img.save(processed_path)
-            instance.processed_img.name = processed_path.split('media/')[1]  # Ajustar el path relativo
+            instance.img_processed.name = processed_path.split('media/')[1]  # Ajustar el path relativo
             instance.save()
 
             return Response(ImageSerializer(instance).data, status=status.HTTP_201_CREATED)
