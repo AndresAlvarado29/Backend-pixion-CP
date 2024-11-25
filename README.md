@@ -20,7 +20,7 @@ creacion de usuarios
 
 ----
 
-Obtener usuarios por id
+Obtener usuarios por username (username es unico)
 
 
 

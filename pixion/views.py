@@ -9,6 +9,7 @@ from .serializers import ImageSerializer, UsuarioSerializer
 from PIL import Image as PILImage
 import io
 
+#POST
 class UsuarioListCreateView(ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
