@@ -1,7 +1,9 @@
 from django.contrib.auth.hashers import check_password
 from django.core.serializers import serialize
 from django.shortcuts import render
+from pycuda.curandom import random_source
 from rest_framework.views import APIView
+from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework import status
@@ -25,6 +27,19 @@ def buscar_usuario(request, username):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Usuario.DoesNotExist:
         return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# endpoint para buscar usuario por id
+class BuscarUsuarioByIdView(RetrieveAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+
+    def get_object(self):
+        try:
+            return Usuario.objects.get(id=self.kwargs['id_user'])
+        except Usuario.DoesNotExist:
+            raise NotFound('Usuario no encontrado')
+
 
 #endpoint para el login, buscar usuario y verificar contrasenia
 class LoginView(APIView):
@@ -51,6 +66,7 @@ class LoginView(APIView):
         serializer = UsuarioSerializer(usuario)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+# endpoint para aplicar los filtros
 class ProcessImageView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ImageSerializer(data=request.data)
@@ -71,7 +87,15 @@ class ProcessImageView(APIView):
             return Response(ImageSerializer(instance).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+# endpoint para mostrar las images (feed)
 class ImageListView(ListAPIView):
     queryset = Image.objects.all()
     serializer_class = ImageListSerializer
+
+# endpoint para mostrar las imagenes del usario
+class UserImagesView(ListAPIView):
+    serializer_class = ImageListSerializer
+
+    def get_queryset(self):
+        id_user = self.kwargs['id_user']
+        return Image.objects.filter(id_user=id_user).order_by('-date')

@@ -28,7 +28,7 @@ Luego se puede ejecutar el servidor (se ejecuta en el puerto 8000)
 creacion de usuarios
 
 
- POST ```http://ipserver:8000/api/usuarios ```
+ POST ```http://<ip-server>:8000/api/usuarios ```
 
 ----
 LOGIN
@@ -36,7 +36,7 @@ LOGIN
 se hace un post con username y password a:
 
 
-POST ```http://ipserver:8000/api/login ```
+POST ```http://<ip-server>:8000/api/login ```
 
 Devuelve codigo ```http 200 OK ```  si el login es correcto 
 
@@ -46,9 +46,29 @@ caso contrario devuelve ```http 400 BAD_REQUEST```
 Obtener usuarios por username (username es unico)
 
 
+GET  ```http://ipserver:8000/api/usuarios/buscar/<username>```
 
-GET ```http://ipserver:8000/api/usuarios/buscar/<id_user>```
 
+
+----
+Obtener usuarios por id
+
+GET  ```http://ipserver:8000/api/usuarios/buscarid/<id-user>```
+
+
+----
+
+Obtener todas la imagenes (feed)
+
+GET ```http://<ip-server>:8000/api/images```
+
+las imagenes estan ordenadas por fecha de creacion de manera descendente 
+
+----
+
+Obtener las imagenes del usuario
+
+GET ```http://ipserver:8000/api/images/user/<id_user>```
 
 ----
 

@@ -40,16 +40,17 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'id_user','date','comment']
 
+# clase serializer para guardar
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ['id', 'img_original', 'img_processed', 'id_user', 'likes', 'comments']
+        fields = ['id', 'img_original', 'img_processed', 'id_user','likes', 'comments']
         read_only_fields = ['img_processed', 'likes']  # No se pueden modificar likes/comments en esta vista
 
-
+# serializer para mostrar la lista de imagenes
 class ImageListSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     class Meta:
         model = Image
-        fields = ['id', 'img_processed', 'id_user', 'likes', 'comments']
+        fields = ['id', 'img_processed', 'id_user','date' ,'likes', 'comments']
 

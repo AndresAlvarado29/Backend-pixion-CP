@@ -24,6 +24,9 @@ class Image(models.Model):
     likes = models.PositiveIntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-date']
+
     def __str__(self):
         return f"Image {self.id} by {self.id_user.username}"
 
@@ -33,6 +36,9 @@ class Comment(models.Model):
     id_user = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="comments")
     date = models.DateTimeField(auto_now_add=True)
     comment = models.TextField()
+    # ordena los comentarios por fecha
+    class Meta:
+        ordering = ['-date']
 
     def __str__(self):
         return f"Comment by {self.id_user.username} on Image {self.id_image.id}"
