@@ -78,54 +78,12 @@ class LoginView(APIView):
 
 # endpoint para aplicar los filtros
 class ProcessImageView(APIView):
-    # def post(self, request, *args, **kwargs):
-    #     # se recupera el filtro seleccionado en el front
-    #     filter_type = request.data.get('filter_type','gauss')
-    #     # se aplica gauss en caso de no resibir info del filtro
-    #
-    #
-    #     serializer = ImageSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         # Guardar la imagen original
-    #         instance = serializer.save()
-    #
-    #         # aqui se llama  a los filtros
-    #         original_path = instance.img_original.path
-    #         img = PILImage.open(original_path).convert('L')  # Convertir a escala de grises
-    #         # Guardar la imagen procesada
-    #         processed_path = original_path.replace('original_images', 'processed_images')
-    #         img.save(processed_path)
-    #         # Se definen los parametros por defecto
-    #         parametros = {
-    #             "kernel_size": 9,
-    #             "blocks_num": 1024
-    #         }
-    #
-    #         filter_type = "gauss" # valor por defecto
-    #
-    #         if filter_type == "gauss":
-    #             print("se aplica filtro de gauss")
-    #             result, _, _ = apply_gauss(image_path=processed_path, parametros=parametros)
-    #
-    #         if filter_type == "erosion":
-    #             print("se aplica filtro de erosion")
-    #             result, _, _ = apply_erosion(image_path=processed_path, parametros=parametros)
-    #         if filter_type == "pencil":
-    #             print("se aplica filtro de pencil")
-    #             result, _, _ = apply_pencil_sketch(image_path=processed_path, parametros=parametros)
-    #
-    #
-    #
-    #         # Guardar la imagen procesada
-    #         #processed_path = original_path.replace('original_images', 'processed_images')
-    #         result.save(processed_path)
-    #         instance.img_processed.name = processed_path.split('media/')[1]  # Ajustar el path relativo
-    #         instance.save()
-    #
-    #         return Response(ImageSerializer(instance).data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def post(self, request, *args, **kwargs):
+        # se recupera el filtro seleccionado en el front
+        filter_type = request.data.get('filter_type','gauss')
+        # se aplica gauss en caso de no resibir info del filtro
+
+
         serializer = ImageSerializer(data=request.data)
         if serializer.is_valid():
             # Guardar la imagen original
@@ -134,15 +92,61 @@ class ProcessImageView(APIView):
             # aqui se llama  a los filtros
             original_path = instance.img_original.path
             img = PILImage.open(original_path).convert('L')  # Convertir a escala de grises
-
             # Guardar la imagen procesada
+            parametros = {
+                "kernel_size": 9,
+                "blocks_num": 1024
+            }
+
+
+
+            if filter_type == "gauss":
+                print("se aplica filtro de gauss")
+                result, _, _ = apply_gauss(image_path=original_path, parametros=parametros)
+
+            if filter_type == "erosion":
+                print("se aplica filtro de erosion")
+                result, _, _ = apply_erosion(image_path=original_path, parametros=parametros)
+            if filter_type == "pencil":
+                print("se aplica filtro de pencil")
+                result, _, _ = apply_pencil_sketch(image_path=original_path, parametros=parametros)
+
+            img = result
+
+
             processed_path = original_path.replace('original_images', 'processed_images')
             img.save(processed_path)
+
+
             instance.img_processed.name = processed_path.split('media/')[1]  # Ajustar el path relativo
             instance.save()
 
             return Response(ImageSerializer(instance).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # def post(self, request, *args, **kwargs):
+    #     serializer = ImageSerializer(data=request.data)
+    #
+    #     filter_type = request.data.get('filter_type')
+    #     if serializer.is_valid():
+    #         # Guardar la imagen original
+    #         instance = serializer.save()
+    #
+    #         # aqui se llama  a los filtros
+    #         original_path = instance.img_original.path
+    #         img = PILImage.open(original_path).convert('L')  # Convertir a escala de grises
+    #
+    #         # Guardar la imagen procesada
+    #         processed_path = original_path.replace('original_images', 'processed_images')
+    #         img.save(processed_path)
+    #
+    #
+    #
+    #         instance.img_processed.name = processed_path.split('media/')[1]  # Ajustar el path relativo
+    #         instance.save()
+    #
+    #         return Response(ImageSerializer(instance).data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # endpoint para mostrar las images (feed)
 class ImageListView(ListAPIView):
