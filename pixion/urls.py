@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ProcessImageView, UsuarioListCreateView, buscar_usuario, LoginView, ImageListView, UserImagesView, \
-    BuscarUsuarioByIdView
+    BuscarUsuarioByIdView, LikeImageView, AddCommentView
 
 urlpatterns = [
     path('process-image/', ProcessImageView.as_view(), name='process-image'),
@@ -10,5 +10,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('images/', ImageListView.as_view(), name='images-list'),
     path('images/user/<int:id_user>/', UserImagesView.as_view(), name='user-images'),
+    path('images/<int:id_image>/like/', LikeImageView.as_view(), name='like_image'),
+    path('add-comment/', AddCommentView.as_view(), name='add-comment'),
+
 
 ]

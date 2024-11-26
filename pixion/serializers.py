@@ -38,7 +38,8 @@ class UsuarioLoginSerializer(serializers.Serializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['id', 'id_user','date','comment']
+        fields = ['id','id_image' ,'id_user','date','comment']
+        read_only_fields = ['date']
 
 # clase serializer para guardar
 class ImageSerializer(serializers.ModelSerializer):

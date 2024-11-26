@@ -76,3 +76,41 @@ Obtener todos los usuarios  (solo para pruebas)
 
 
 GET ```http://ipserver:8000/api/usuarios```
+
+----
+
+Endpoint para dar like 
+
+POST ```http://ipserver:8000/api/images/<id_image>/like  id_user=<id_user>```
+
+ejemplo:
+
+POST al endpoint con el siguiente json
+```{"id_user"=2}```
+
+----
+Endpoint para comentar 
+
+POST ```http://ipserver:8000/api/add-comment/```
+
+El endpoint /add-comment/ acepta un POST con los siguientes datos:
+```id_image:``` El id de la imagen a la que se le quiere agregar el comentario.
+```id_user:``` El id del usuario que esta comentando.
+```comment:``` El texto del comentario.
+
+ejemplo:
+```
+{
+
+    "id_image"=1,
+
+    "id_user"=1,
+
+    "comment"="Este es un comentario en la imagen."
+}
+```
+
+
+----
+
+Endpoint para aplicar filtros 

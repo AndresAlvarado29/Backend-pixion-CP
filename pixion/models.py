@@ -42,3 +42,16 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.id_user.username} on Image {self.id_image.id}"
+
+
+# clase paara manegar los likes:
+class ImageLike(models.Model):
+    id_image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="like")
+    id_user = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="liked_images")
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('id_image', 'id_user')  # Un usuario solo puede dar like a una imagen una vez
+
+    def __str__(self):
+        return f"Like by {self.id_user.username} on Image {self.id_image.id}"
