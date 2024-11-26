@@ -3,11 +3,11 @@ from django.core.serializers import serialize
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import Image, Usuario
-from .serializers import ImageSerializer, UsuarioSerializer, UsuarioLoginSerializer, UsuarioSerializerRegistro
+from .serializers import ImageSerializer, ImageListSerializer , UsuarioSerializer, UsuarioLoginSerializer, UsuarioSerializerRegistro
 from PIL import Image as PILImage
 import io
 
@@ -71,3 +71,7 @@ class ProcessImageView(APIView):
             return Response(ImageSerializer(instance).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class ImageListView(ListAPIView):
+    queryset = Image.objects.all()
+    serializer_class = ImageListSerializer
