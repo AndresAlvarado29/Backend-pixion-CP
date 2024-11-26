@@ -5,3 +5,4 @@ djangorestframework
 Markdown
 pillow
 pycuda
+gunicorn
