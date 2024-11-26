@@ -11,6 +11,9 @@ media
 # Backup files # 
 *.bak 
 
+# jupyter notebooks
+*.ipynb
+
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/**/workspace.xml

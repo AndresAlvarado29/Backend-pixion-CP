@@ -14,6 +14,15 @@ from .serializers import ImageSerializer, ImageListSerializer, UsuarioSerializer
 from PIL import Image as PILImage
 import io
 
+#se importan los filtros
+
+from .filters.filtro_gauss import apply_gauss
+from .filters.filtro_erosion import apply_erosion
+from .filters.filtro_pencil_sketch import apply_pencil_sketch
+
+#filtros nuevos
+
+
 #POST
 class UsuarioListCreateView(ListCreateAPIView):
     queryset = Usuario.objects.all()
@@ -70,6 +79,11 @@ class LoginView(APIView):
 # endpoint para aplicar los filtros
 class ProcessImageView(APIView):
     def post(self, request, *args, **kwargs):
+        # se recupera el filtro seleccionado en el front
+        filter_type = request.data.get('filter_type','gauss') 
+        # se aplica gauss en caso de no resibir info del filtro
+
+
         serializer = ImageSerializer(data=request.data)
         if serializer.is_valid():
             # Guardar la imagen original
@@ -79,6 +93,24 @@ class ProcessImageView(APIView):
             original_path = instance.img_original.path
             img = PILImage.open(original_path).convert('L')  # Convertir a escala de grises
 
+            # Se definen los parametros por defecto
+            parametros = {
+                "kernel_size": 9,
+                "blocks_num": 1024
+            }
+
+            if filter_type == "gauss":
+                print("se aplica filtro de gauss")
+                result, _, _ = apply_gauss(image_path=original_path, parametros=parametros)
+            if filter_type == "erosion":
+                print("se aplica filtro de erosion")
+                result, _, _ = apply_erosion(image_path=original_path, parametros=parametros)
+            if filter_type == "pencil":
+                print("se aplica filtro de pencil")
+                result, _, _ = apply_pencil_sketch(image_path=original_path, parametros=parametros)
+
+
+            processed_path = result
             # Guardar la imagen procesada
             processed_path = original_path.replace('original_images', 'processed_images')
             img.save(processed_path)
