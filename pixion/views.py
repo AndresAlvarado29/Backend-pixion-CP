@@ -99,6 +99,8 @@ class ProcessImageView(APIView):
                 "blocks_num": 1024
             }
 
+            filter_type = "gauss" # valor por defecto
+
             if filter_type == "gauss":
                 print("se aplica filtro de gauss")
                 result, _, _ = apply_gauss(image_path=original_path, parametros=parametros)

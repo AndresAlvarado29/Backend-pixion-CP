@@ -114,3 +114,9 @@ ejemplo:
 ----
 
 Endpoint para aplicar filtros 
+POST ```http://ipserver:8000/api/process-image/```
+
+{ "id_user"=1, "filter_type": "gauss" }
+
+
+----
