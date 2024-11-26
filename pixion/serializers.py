@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Image, Usuario
+from .models import Image, Usuario, Comment
 from django.contrib.auth.hashers import make_password
 
 
@@ -35,9 +35,21 @@ class UsuarioLoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'id_user','date','comment']
+
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ['id', 'img_original', 'img_processed', 'id_user', 'likes', 'comments']
-        read_only_fields = ['processed_img', 'likes', 'comments']  # No se pueden modificar likes/comments en esta vista
+        read_only_fields = ['img_processed', 'likes']  # No se pueden modificar likes/comments en esta vista
+
+
+class ImageListSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(many=True, read_only=True)
+    class Meta:
+        model = Image
+        fields = ['id', 'img_processed', 'id_user', 'likes', 'comments']
 
