@@ -23,6 +23,10 @@ Luego se puede ejecutar el servidor (se ejecuta en el puerto 8000)
 
 ```python manage.py runserver```
 
+# ejecutar con Gunicorn
+gunicorn --workers=1 --threads=4 --bind 0.0.0.0:8000 backend_pixion.wsgi
+
+
 ### Endpoints (APIs)
 
 creacion de usuarios

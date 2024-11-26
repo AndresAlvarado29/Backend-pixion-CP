@@ -103,19 +103,19 @@ class ProcessImageView(APIView):
             }
 
             print(parametros)
-            #
-            # if filter_type == "gauss":
-            #     print("se aplica filtro de gauss")
-            #     result, _, _ = apply_gauss(image_path=original_path, parametros=parametros)
-            #
-            # if filter_type == "erosion":
-            #     print("se aplica filtro de erosion")
-            #     result, _, _ = apply_erosion(image_path=original_path, parametros=parametros)
-            # if filter_type == "pencil":
-            #     print("se aplica filtro de pencil")
-            #     result, _, _ = apply_pencil_sketch(image_path=original_path, parametros=parametros)
-            #
-            # img = result
+
+            if filter_type == "gauss":
+                print("se aplica filtro de gauss")
+                result, _, _ = apply_gauss(image_path=original_path, parametros=parametros)
+
+            if filter_type == "erosion":
+                print("se aplica filtro de erosion")
+                result, _, _ = apply_erosion(image_path=original_path, parametros=parametros)
+            if filter_type == "pencil":
+                print("se aplica filtro de pencil")
+                result, _, _ = apply_pencil_sketch(image_path=original_path, parametros=parametros)
+
+            img = result
 
 
             processed_path = original_path.replace('original_images', 'processed_images')
