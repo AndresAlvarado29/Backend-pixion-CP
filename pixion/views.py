@@ -14,6 +14,10 @@ from .serializers import ImageSerializer, ImageListSerializer, UsuarioSerializer
 from PIL import Image as PILImage
 import io
 
+import multiprocessing
+
+
+
 #se importan los filtros
 
 from .filters.filtro_gauss import apply_gauss
@@ -83,7 +87,7 @@ class ProcessImageView(APIView):
         filter_type = request.data.get('filter_type','gauss')
         # se aplica gauss en caso de no resibir info del filtro
 
-
+        print("filtro escogido:" , filter_type)
         serializer = ImageSerializer(data=request.data)
         if serializer.is_valid():
             # Guardar la imagen original
@@ -98,20 +102,20 @@ class ProcessImageView(APIView):
                 "blocks_num": 1024
             }
 
-
-
-            if filter_type == "gauss":
-                print("se aplica filtro de gauss")
-                result, _, _ = apply_gauss(image_path=original_path, parametros=parametros)
-
-            if filter_type == "erosion":
-                print("se aplica filtro de erosion")
-                result, _, _ = apply_erosion(image_path=original_path, parametros=parametros)
-            if filter_type == "pencil":
-                print("se aplica filtro de pencil")
-                result, _, _ = apply_pencil_sketch(image_path=original_path, parametros=parametros)
-
-            img = result
+            print(parametros)
+            #
+            # if filter_type == "gauss":
+            #     print("se aplica filtro de gauss")
+            #     result, _, _ = apply_gauss(image_path=original_path, parametros=parametros)
+            #
+            # if filter_type == "erosion":
+            #     print("se aplica filtro de erosion")
+            #     result, _, _ = apply_erosion(image_path=original_path, parametros=parametros)
+            # if filter_type == "pencil":
+            #     print("se aplica filtro de pencil")
+            #     result, _, _ = apply_pencil_sketch(image_path=original_path, parametros=parametros)
+            #
+            # img = result
 
 
             processed_path = original_path.replace('original_images', 'processed_images')

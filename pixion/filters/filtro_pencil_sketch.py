@@ -66,14 +66,15 @@ def apply_pencil_sketch(image_path, parametros):
     img = Image.open(image_path).convert('L')  # Convertir a escala de grises
     width, height = img.size
     total_pixels = width * height
-    
+    print("leyo la imagen")
     # Convertir imagen a array de numpy
     img_array = np.array(img, dtype=np.uint8)
-    
+    print("convirtio  imagen en array")
     # Preparar datos para GPU
+
     input_gpu = cuda.mem_alloc(img_array.nbytes)
     output_gpu = cuda.mem_alloc(img_array.nbytes)
-    
+    print("reservo la imagen en memoria")
     # Copiar imagen a GPU
     cuda.memcpy_htod(input_gpu, img_array)
     
