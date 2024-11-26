@@ -92,7 +92,9 @@ class ProcessImageView(APIView):
             # aqui se llama  a los filtros
             original_path = instance.img_original.path
             img = PILImage.open(original_path).convert('L')  # Convertir a escala de grises
-
+            # Guardar la imagen procesada
+            processed_path = original_path.replace('original_images', 'processed_images')
+            img.save(processed_path)
             # Se definen los parametros por defecto
             parametros = {
                 "kernel_size": 9,
@@ -103,19 +105,20 @@ class ProcessImageView(APIView):
 
             if filter_type == "gauss":
                 print("se aplica filtro de gauss")
-                result, _, _ = apply_gauss(image_path=original_path, parametros=parametros)
+                result, _, _ = apply_gauss(image_path=processed_path, parametros=parametros)
+
             if filter_type == "erosion":
                 print("se aplica filtro de erosion")
-                result, _, _ = apply_erosion(image_path=original_path, parametros=parametros)
+                result, _, _ = apply_erosion(image_path=processed_path, parametros=parametros)
             if filter_type == "pencil":
                 print("se aplica filtro de pencil")
-                result, _, _ = apply_pencil_sketch(image_path=original_path, parametros=parametros)
+                result, _, _ = apply_pencil_sketch(image_path=processed_path, parametros=parametros)
 
 
-            processed_path = result
+
             # Guardar la imagen procesada
-            processed_path = original_path.replace('original_images', 'processed_images')
-            img.save(processed_path)
+            #processed_path = original_path.replace('original_images', 'processed_images')
+            result.save(processed_path)
             instance.img_processed.name = processed_path.split('media/')[1]  # Ajustar el path relativo
             instance.save()
 
