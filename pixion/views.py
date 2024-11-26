@@ -23,7 +23,8 @@ import multiprocessing
 from .filters.filtro_gauss import apply_gauss
 from .filters.filtro_erosion import apply_erosion
 from .filters.filtro_pencil_sketch import apply_pencil_sketch
-
+from .filters.filtro_negativo import apply_negativo_personalizado
+from .filters.filtro_ups import apply_mosaic_logo_filter
 #filtros nuevos
 
 
@@ -114,6 +115,12 @@ class ProcessImageView(APIView):
             if filter_type == "pencil":
                 print("se aplica filtro de pencil")
                 result, _, _ = apply_pencil_sketch(image_path=original_path, parametros=parametros)
+            if filter_type == "negative":
+                print("filtro negativo personalizado")
+                result, _ = apply_negativo_personalizado(image_path=original_path)
+            if filter_type == "swirl":
+                print(":se aplica filtro de la ups")
+                result = apply_mosaic_logo_filter(input_image_path=original_path, output_image_path=original_path)
 
             img = result
 
